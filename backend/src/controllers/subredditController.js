@@ -16,18 +16,45 @@ export const getSubbreddit = async (req, res, next) => {
 	const { name } = req.params;
 
 	try {
-		const subreddit = await Subreddit.findOne({
-			name: { $regex: name, $options: 'i' },
-		})
-			.populate({
-				path: 'posts',
-				populate: { path: 'author', select: 'username' },
-			})
-			.sort({ createdAt: -1 });
-		if (!subreddit) {
+		const subreddit = await Subreddit.aggregate([
+			{ $match: { name: { $regex: name, $options: 'i' } } },
+			{
+				$lookup: {
+					from: 'posts',
+					let: { subredditId: '$_id' },
+					pipeline: [
+						{ $match: { $expr: { $eq: ['$subreddit', '$$subredditId'] } } },
+						{ $sort: { createdAt: -1 } },
+						{
+							$lookup: {
+								from: 'users',
+								localField: 'author',
+								foreignField: '_id',
+								as: 'author',
+							},
+						},
+						{ $unwind: '$author' },
+						{
+							$project: {
+								'author._id': 1,
+								'author.username': 1,
+								title: 1,
+								content: 1,
+								createdAt: 1,
+								upvotes: 1,
+							},
+						}, // Include author's _id and username
+					],
+					as: 'posts',
+				},
+			},
+		]);
+
+		if (!subreddit || subreddit.length === 0) {
 			throw createHttpError.NotFound('Subreddit not found');
 		}
-		res.status(200).json(subreddit);
+
+		res.status(200).json(subreddit[0]);
 	} catch (error) {
 		console.log('Error in getSubreddit controller');
 		next(error);
@@ -195,12 +222,12 @@ export const subscribeUnsubScribeSubreddit = async (req, res, next) => {
 			throw createHttpError.NotFound('Subreddit not found');
 		}
 		console.log('subreddit found: ', subreddit);
-		if (!user.subcriptions.includes(subreddit._id)) {
-			user.subcriptions.push(subreddit._id);
+		if (!user.subscriptions.includes(subreddit._id)) {
+			user.subscriptions.push(subreddit._id);
 			subreddit.subscribers.push(user._id);
 			console.log('Pushed!');
 		} else {
-			user.subcriptions = user.subcriptions.filter(
+			user.subscriptions = user.subscriptions.filter(
 				(sub) => !sub.equals(subreddit._id)
 			);
 			subreddit.subscribers = subreddit.subscribers.filter(

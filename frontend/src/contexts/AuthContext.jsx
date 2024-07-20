@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import AuthAPI from '../services/authAPI';
+import AuthAPI from '../services/AuthAPI';
 import { useToast } from '@chakra-ui/react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';

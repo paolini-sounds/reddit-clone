@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import SubredditAPI from '../services/SubredditAPI';
 import {
@@ -30,6 +30,7 @@ const SubredditPage = () => {
 		);
 	}
 
+	console.log(subreddit);
 	const isSubscribed = subreddit.subscribers.includes(authUser._id);
 	const subscribers = subreddit.subscribers.length;
 
@@ -47,7 +48,11 @@ const SubredditPage = () => {
 			)}
 			<Heading>r/{name}</Heading>
 			<Text mb={4}>{subscribers} Subscribers</Text>
-			{isLoggedIn && <Button>Create post in r/{subreddit.name}</Button>}
+			{isLoggedIn && (
+				<Button as={Link} to={`/r/${subreddit.name}/create`}>
+					Create post in r/{subreddit.name}
+				</Button>
+			)}
 			{isLoading ? (
 				<Spinner />
 			) : isError ? (

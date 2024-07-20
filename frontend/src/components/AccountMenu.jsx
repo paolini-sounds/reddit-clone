@@ -37,7 +37,7 @@ const AccountMenu = () => {
 						<React.Fragment>
 							<br />
 							<Center>
-								<Link to={`/profile/${isLoggedIn ? authUser.username : ''}`}>
+								<Link to={`/u/${isLoggedIn ? authUser.username : ''}`}>
 									<Avatar
 										size='md'
 										name={isLoggedIn ? authUser.username : ''}

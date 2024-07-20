@@ -11,12 +11,20 @@ import {
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { TbArrowBigUp } from 'react-icons/tb';
+import usePost from '../hooks/usePost';
+import useAuth from '../hooks/useAuth';
 
 const Post = ({ post, subredditName }) => {
+	const { upvote } = usePost();
+	const { authUser } = useAuth();
+
+	const isUpvoted = authUser.upvotedPosts.includes(post._id);
+
+	console.log('post: ', post);
 	return (
 		<Card width='100%'>
 			<CardHeader fontWeight='bold'>
-				<Button variant='link' as={Link} to={`/subreddits/${subredditName}`}>
+				<Button variant='link' as={Link} to={`/r/${subredditName}`}>
 					r/{subredditName}
 				</Button>
 				<Heading>{post.title}</Heading>
@@ -24,7 +32,7 @@ const Post = ({ post, subredditName }) => {
 					size='sm'
 					variant='link'
 					as={Link}
-					to={`/${post.author.username}`}
+					to={`/u/${post.author.username}`}
 				>
 					u/{post.author.username}
 				</Button>
@@ -34,7 +42,13 @@ const Post = ({ post, subredditName }) => {
 				<Text>{post.content}</Text>
 			</CardBody>
 			<CardFooter>
-				<Button leftIcon={<TbArrowBigUp />}>{post.upvotes}</Button>
+				<Button
+					leftIcon={<TbArrowBigUp />}
+					onClick={() => upvote({ subredditName, postId: post._id })}
+					colorScheme={isUpvoted ? 'green' : 'gray'}
+				>
+					{post.upvotes}
+				</Button>
 			</CardFooter>
 		</Card>
 	);

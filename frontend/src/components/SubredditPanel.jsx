@@ -43,7 +43,7 @@ const SubredditPanel = () => {
 								mr='auto'
 								variant='link'
 								as={Link}
-								to={`/subreddits/${subreddit.name}`}
+								to={`/r/${subreddit.name}`}
 								key={subreddit._id}
 							>
 								<Heading size='sm'>{subreddit.name}</Heading>

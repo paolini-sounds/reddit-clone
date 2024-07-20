@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
 			required: true,
 			minLength: 6,
 		},
-		subcriptions: [
+		subscriptions: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
 				ref: 'Subreddit',
@@ -39,6 +39,13 @@ const userSchema = new mongoose.Schema(
 	},
 	{ timestamps: true }
 );
+
+userSchema.virtual('totalUpvotes').get(function () {
+	if (this.posts && this.posts.length) {
+		return this.posts.reduce((acc, post) => acc + (post.upvotes || 0), 0);
+	}
+	return 0;
+});
 
 const User = mongoose.model('User', userSchema);
 

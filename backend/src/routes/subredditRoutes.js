@@ -39,9 +39,9 @@ router.delete('/:id', protectRoute, deleteSubreddit); //delete subreddit
 
 //post routes
 router.post('/:name/posts', protectRoute, validatePost, createPost); //create post in subreddit
+router.post('/:name/posts/:id/upvote', protectRoute, upvotePost); //upvote post in subreddit by id
 router.get('/:name/posts/:id', getPost); //update post in subreddit by id
 router.put('/:name/posts/:id', protectRoute, validatePost, updatePost); //update post in subreddit by id
-router.post('/:name/posts/:id/upvote', protectRoute, upvotePost); //upvote post in subreddit by id
 router.delete('/:name/posts/:id', protectRoute, deletePost); //delete post in subreddit by id
 
 //comment routes

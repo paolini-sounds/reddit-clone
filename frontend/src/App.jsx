@@ -6,7 +6,7 @@ import ProfilePage from './components/ProfilePage';
 import ProtectedRoute from './components/ProtectedRoute';
 import ErrorPage from './components/ErrorPage';
 import SubredditPage from './components/SubredditPage';
-import useAuth from './hooks/useAuth';
+import CreatePostForm from './components/CreatePostForm';
 
 function App() {
 	return (
@@ -15,8 +15,11 @@ function App() {
 			<Routes>
 				<Route path='/' element={<HomePage />} />
 				<Route path='/login' element={<LoginPage />} />
-				<Route path='/:id' element={<ProfilePage />} />
-				<Route path='/subreddits/:name' element={<SubredditPage />} />
+				<Route path='/u/:username' element={<ProfilePage />} />
+				<Route path='/r/:name' element={<SubredditPage />} />
+				<Route element={<ProtectedRoute />}>
+					<Route path='r/:name/create' element={<CreatePostForm />} />
+				</Route>
 				<Route path='/*' element={<ErrorPage />} />
 			</Routes>
 		</>
