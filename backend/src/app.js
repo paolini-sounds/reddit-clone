@@ -17,6 +17,7 @@ const URL =
 app.use(
 	cors({
 		origin: URL,
+		methods: ['GET', 'POST', 'PUT', 'DELETE'],
 		credentials: true,
 	})
 );
