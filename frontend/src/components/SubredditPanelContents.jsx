@@ -1,13 +1,4 @@
-import {
-	Button,
-	Center,
-	Flex,
-	Heading,
-	Spinner,
-	VStack,
-	useColorModeValue,
-	Text,
-} from '@chakra-ui/react';
+import { Button, Flex, Heading, Spinner, Text } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import SubredditAPI from '../services/SubredditAPI';
 import { Link } from 'react-router-dom';
@@ -22,6 +13,7 @@ const SubredditPanelContents = () => {
 		queryKey: ['subreddits'],
 		queryFn: SubredditAPI.getAllSubreddits,
 	});
+
 	return (
 		<>
 			{isLoading ? (

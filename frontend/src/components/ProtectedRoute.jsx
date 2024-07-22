@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-import { Center, Spinner, useToast } from '@chakra-ui/react';
+import { Center, Spinner } from '@chakra-ui/react';
 
 const ProtectedRoute = () => {
 	const { authUser, isLoading } = useAuth();

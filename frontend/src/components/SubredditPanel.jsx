@@ -1,31 +1,25 @@
 import {
-	Button,
-	Center,
 	Drawer,
 	Flex,
-	Heading,
-	Spinner,
-	VStack,
 	useColorModeValue,
 	useDisclosure,
 	useMediaQuery,
 	DrawerOverlay,
-	Text,
 	DrawerContent,
 	IconButton,
 	Box,
 } from '@chakra-ui/react';
-import { useState, useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { LuPanelLeft } from 'react-icons/lu';
 
 import SubredditPanelContents from './SubredditPanelContents';
 
 const SubredditPanel = () => {
-	const [isLargerThan960] = useMediaQuery('(min-width: 960px)');
+	const [isLargerThan992] = useMediaQuery('(min-width: 992px)');
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const btnRef = useRef();
 
-	if (!isLargerThan960) {
+	if (!isLargerThan992) {
 		return (
 			<>
 				<IconButton
@@ -54,7 +48,16 @@ const SubredditPanel = () => {
 	}
 
 	return (
-		<Flex height='100dvh' bg={useColorModeValue('gray.50', 'gray.700')}>
+		<Flex
+			position='fixed'
+			left='0'
+			top={'0'}
+			pt={16}
+			width='250px'
+			overflowY='auto'
+			height='100dvh'
+			bg={useColorModeValue('gray.50', 'gray.700')}
+		>
 			<SubredditPanelContents />
 		</Flex>
 	);

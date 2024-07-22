@@ -1,5 +1,4 @@
-import { useToast } from '@chakra-ui/react';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import useAuth from '../hooks/useAuth';
 
 const useAuthForm = (authAction) => {

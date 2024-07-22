@@ -8,8 +8,6 @@ export const createPost = async (req, res, next) => {
 	const { title, content } = req.body;
 	const authUser = req.user;
 
-	console.log('Name: ', name);
-
 	try {
 		if (!title || !content) {
 			throw createHttpError.BadRequest('Title and content are required');
@@ -33,7 +31,7 @@ export const createPost = async (req, res, next) => {
 			subreddit: subreddit._id,
 			author: user._id,
 		});
-		console.log('Post: ', post);
+
 		if (post) {
 			await Subreddit.findByIdAndUpdate(subreddit._id, {
 				$push: { posts: post._id },
@@ -66,11 +64,8 @@ export const getPost = async (req, res, next) => {
 };
 
 export const getUserFeed = async (req, res, next) => {
-	console.log('Req.query: ', req.query);
 	const { page = 1, limit = 10 } = req.query;
 	const authUser = req.user;
-	console.log('page: ', page);
-	console.log('limit: ', limit);
 
 	try {
 		const user = await User.findById(authUser._id).populate('subscriptions');
@@ -141,7 +136,6 @@ export const updatePost = async (req, res, next) => {
 	const { id } = req.params;
 	const update = req.body;
 	const authUser = req.user;
-	console.log('AuthUser: ', authUser);
 
 	try {
 		const user = await User.findById(authUser._id);
@@ -152,7 +146,7 @@ export const updatePost = async (req, res, next) => {
 		if (!post) {
 			throw createHttpError.NotFound('Post not found');
 		}
-		console.log('Post creator: ', post.author);
+
 		if (!user._id.equals(post.author)) {
 			throw createHttpError.Forbidden('Not authorized to update post');
 		}

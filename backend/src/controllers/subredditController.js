@@ -126,14 +126,13 @@ export const seedSubreddits = async (req, res, next) => {
 
 export const createSubreddit = async (req, res, next) => {
 	const { name, description } = req.body;
-	console.log('Name: ', name);
 	const user = req.user;
 
 	try {
 		if (!user) {
 			throw createHttpError.Unauthorized('Unauthorized to create subreddit');
 		}
-		console.log(user);
+
 		const existingSubreddit = await Subreddit.findOne({
 			name: { $regex: name, $options: 'i' },
 		});
@@ -222,11 +221,9 @@ export const subscribeUnsubScribeSubreddit = async (req, res, next) => {
 		if (!subreddit) {
 			throw createHttpError.NotFound('Subreddit not found');
 		}
-		console.log('subreddit found: ', subreddit);
 		if (!user.subscriptions.includes(subreddit._id)) {
 			user.subscriptions.push(subreddit._id);
 			subreddit.subscribers.push(user._id);
-			console.log('Pushed!');
 		} else {
 			user.subscriptions = user.subscriptions.filter(
 				(sub) => !sub.equals(subreddit._id)
@@ -234,7 +231,6 @@ export const subscribeUnsubScribeSubreddit = async (req, res, next) => {
 			subreddit.subscribers = subreddit.subscribers.filter(
 				(sub) => !sub.equals(user._id)
 			);
-			console.log('Popped!');
 		}
 
 		await subreddit.save();

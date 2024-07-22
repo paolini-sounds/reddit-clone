@@ -1,6 +1,5 @@
 import { Button, Flex, FormControl, Heading, Textarea } from '@chakra-ui/react';
 import React from 'react';
-import { Form } from 'react-router-dom';
 import useComment from '../hooks/useComment';
 
 const CreateCommentForm = ({ post, subredditName, callback = () => {} }) => {

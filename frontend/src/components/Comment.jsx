@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Divider, Flex, Text, Box, IconButton } from '@chakra-ui/react';
+import { Button, Divider, Flex, Text, IconButton } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
 import { FaDeleteLeft } from 'react-icons/fa6';

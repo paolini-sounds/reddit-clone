@@ -1,4 +1,3 @@
-import { strict } from 'assert';
 import User from '../models/userModel.js';
 
 export const getUserProfile = async (req, res) => {

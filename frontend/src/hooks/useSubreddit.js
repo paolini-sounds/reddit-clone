@@ -23,7 +23,7 @@ const useSubreddit = (name) => {
 			refetch();
 			toast({
 				title: 'Subscribed',
-				description: `You have successfully subscribed to ${name}`,
+				description: `Action successful`,
 				status: 'success',
 				duration: 3000,
 				isClosable: true,

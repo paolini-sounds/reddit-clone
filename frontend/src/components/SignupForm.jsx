@@ -1,21 +1,15 @@
 import {
-	Box,
 	Button,
-	Center,
 	Flex,
 	FormControl,
 	FormErrorMessage,
 	FormLabel,
-	Heading,
 	Input,
-	Text,
 } from '@chakra-ui/react';
 import useAuthForm from '../hooks/useAuthForm';
-import useAuth from '../hooks/useAuth';
 
 const SignupForm = () => {
-	const { register } = useAuth();
-	const { isTyping, handleSubmit, errors, hasFormErrors, handleInputChange } =
+	const { handleSubmit, errors, hasFormErrors, handleInputChange } =
 		useAuthForm('signup');
 
 	return (

@@ -2,31 +2,30 @@ import {
 	Box,
 	Flex,
 	HStack,
-	IconButton,
 	Button,
-	useDisclosure,
-	Stack,
 	useColorMode,
 	useColorModeValue,
-	useMediaQuery,
 	Heading,
-	LinkOverlay,
 } from '@chakra-ui/react';
 import { FaRegMoon } from 'react-icons/fa';
 import { MdOutlineWbSunny } from 'react-icons/md';
-import { AiOutlineMenu } from 'react-icons/ai';
-import { IoMdClose } from 'react-icons/io';
 import { Link } from 'react-router-dom';
-
 import AccountMenu from './AccountMenu';
-import useAuth from '../hooks/useAuth';
 import React from 'react';
 
 const Navbar = () => {
 	const { colorMode, toggleColorMode } = useColorMode();
 
 	return (
-		<Box bg={useColorModeValue('gray.100', 'gray.900')} pl={4}>
+		<Box
+			position='fixed'
+			top='0'
+			left='0'
+			width='100%'
+			bg={useColorModeValue('gray.100', 'gray.900')}
+			pl={4}
+			zIndex={100}
+		>
 			<Flex
 				h={16}
 				alignItems='center'
