@@ -9,9 +9,14 @@ import subredditRoutes from './routes/subredditRoutes.js';
 
 const app = express();
 
+const URL =
+	process.env.ENV === 'development'
+		? 'http://localhost:5173'
+		: process.env.PRODUCTION_URL;
+
 app.use(
 	cors({
-		origin: 'http://localhost:5173',
+		origin: URL,
 		credentials: true,
 	})
 );
