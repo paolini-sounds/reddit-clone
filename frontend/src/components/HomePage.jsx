@@ -8,26 +8,22 @@ import {
 	SimpleGrid,
 	Spinner,
 	Text,
+	Box,
 } from '@chakra-ui/react';
 
 import useAuth from '../hooks/useAuth';
 import UserFeed from './UserFeed';
 import GenericFeed from './GenericFeed';
+import { Outlet } from 'react-router-dom';
 
 const HomePage = () => {
 	const { authUser, isLoggedIn, isLoading, error, isError } = useAuth();
 	return (
 		<Flex>
 			<SubredditPanel />
-			{isLoading ? (
-				<Center h='100vh'>
-					<Spinner size='xl' />
-				</Center>
-			) : isLoggedIn ? (
-				<UserFeed />
-			) : (
-				<GenericFeed />
-			)}
+			<Box width={['100%', '100%', '90%', '80%']}>
+				<Outlet />
+			</Box>
 		</Flex>
 	);
 };

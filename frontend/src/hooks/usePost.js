@@ -1,18 +1,19 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import PostAPI from '../services/PostAPI';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@chakra-ui/react';
+import { useState } from 'react';
 
-const usePost = (subreddit) => {
+const usePost = (subredditName, postId = '') => {
 	const navigate = useNavigate();
 	const toast = useToast();
 	const queryClient = useQueryClient();
+	const [enableComments, setEnableComments] = useState(false);
 
 	const createPostMutation = useMutation({
-		mutationFn: ({ subredditName, post }) =>
-			PostAPI.createPost(subredditName, post),
+		mutationFn: ({ post }) => PostAPI.createPost(subredditName, post),
 		onSuccess: () => {
-			queryClient.invalidateQueries(['posts', subreddit]);
+			queryClient.invalidateQueries(['posts', subredditName]);
 			toast({
 				title: 'Post created',
 				description: 'Your post has been created',
@@ -20,7 +21,55 @@ const usePost = (subreddit) => {
 				duration: 3000,
 				isClosable: true,
 			});
-			navigate(`/r/${subreddit}`);
+			navigate(`/r/${subredditName}`);
+		},
+		onError: (error) => {
+			toast({
+				title: 'An error occurred.',
+				description: error.message,
+				status: 'error',
+				duration: 3000,
+				isClosable: true,
+			});
+		},
+	});
+
+	const editPostMutation = useMutation({
+		mutationFn: ({ post }) => PostAPI.editPost(subredditName, post, postId),
+		onSuccess: () => {
+			queryClient.invalidateQueries(['posts', subredditName]);
+			toast({
+				title: 'Post updated',
+				description: 'Your post has been updated',
+				status: 'success',
+				duration: 3000,
+				isClosable: true,
+			});
+			navigate(`/r/${subredditName}`);
+		},
+		onError: (error) => {
+			toast({
+				title: 'An error occurred.',
+				description: error.message,
+				status: 'error',
+				duration: 3000,
+				isClosable: true,
+			});
+		},
+	});
+
+	const deletePostMutation = useMutation({
+		mutationFn: () => PostAPI.deletePost(subredditName, postId),
+		onSuccess: () => {
+			queryClient.invalidateQueries(['posts', subredditName]);
+			toast({
+				title: 'Post deleted',
+				description: 'Your post has been deleted',
+				status: 'success',
+				duration: 3000,
+				isClosable: true,
+			});
+			navigate(`/r/${subredditName}`);
 		},
 		onError: (error) => {
 			toast({
@@ -34,10 +83,9 @@ const usePost = (subreddit) => {
 	});
 
 	const upvoteMutation = useMutation({
-		mutationFn: ({ subredditName, postId }) =>
-			PostAPI.upvote(subredditName, postId),
+		mutationFn: () => PostAPI.upvote(subredditName, postId),
 		onSuccess: () => {
-			queryClient.invalidateQueries(['posts', subreddit]);
+			queryClient.invalidateQueries(['posts', subredditName]);
 		},
 		onError: (error) => {
 			toast({
@@ -50,14 +98,46 @@ const usePost = (subreddit) => {
 		},
 	});
 
-	const createPost = ({ subredditName, post }) => {
-		createPostMutation.mutate({ subredditName, post });
+	const {
+		data: comments,
+		isLoading,
+		isError,
+		error,
+	} = useQuery({
+		queryKey: ['comments', subredditName],
+		queryFn: () => PostAPI.getComments(subredditName, postId),
+		enabled: enableComments,
+	});
+
+	const createPost = ({ post }) => {
+		createPostMutation.mutate({ post });
 	};
 
-	const upvote = ({ subredditName, postId }) => {
-		upvoteMutation.mutate({ subredditName, postId });
+	const upvote = () => {
+		upvoteMutation.mutate();
 	};
 
-	return { createPost, upvote };
+	const editPost = ({ post }) => {
+		editPostMutation.mutate({ post });
+	};
+
+	const deletePost = () => {
+		deletePostMutation.mutate();
+	};
+
+	return {
+		createPost,
+		editPost,
+		deletePost,
+		upvote,
+		comments,
+		upvoteMutation,
+		createPostMutation,
+		isLoading,
+		isError,
+		error,
+		setEnableComments,
+		enableComments,
+	};
 };
 export default usePost;

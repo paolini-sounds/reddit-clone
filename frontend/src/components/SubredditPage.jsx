@@ -19,8 +19,15 @@ import useAuth from '../hooks/useAuth';
 const SubredditPage = () => {
 	const { name } = useParams();
 	const { authUser, isLoading: authLoading, isLoggedIn } = useAuth();
-	const { subreddit, subscribeUnsubscribe, posts, error, isLoading, isError } =
-		useSubreddit(name);
+	const {
+		subreddit,
+		subscribeUnsubscribe,
+		posts,
+		error,
+		isLoading,
+		isError,
+		subscribeMutation,
+	} = useSubreddit(name);
 
 	if (isLoading || authLoading) {
 		return (
@@ -38,12 +45,19 @@ const SubredditPage = () => {
 		<Flex direction='column' alignItems='center'>
 			{isLoggedIn && (
 				<Button
+					disabled={subscribeMutation.isPending}
 					onClick={() => subscribeUnsubscribe(name)}
 					margin={5}
 					ml='auto'
 					size='sm'
 				>
-					{isSubscribed ? 'Unsubscribe' : 'Subscribe'}
+					{subscribeMutation.isPending ? (
+						<Spinner />
+					) : isSubscribed ? (
+						'Unsubscribe'
+					) : (
+						'Subscribe'
+					)}
 				</Button>
 			)}
 			<Heading>r/{name}</Heading>
@@ -61,13 +75,13 @@ const SubredditPage = () => {
 				<Flex
 					direction='column'
 					width='100%'
-					gap={4}
+					gap={8}
 					padding={10}
 					alignItems='center'
 				>
 					{posts && posts.length > 0 ? (
 						posts.map((post) => (
-							<Box width='80%' key={post._id}>
+							<Box width={['100%', '100%', '80%']} key={post._id}>
 								<Post post={post} subredditName={name} />
 							</Box>
 						))

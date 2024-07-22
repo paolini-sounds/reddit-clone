@@ -63,7 +63,13 @@ export const getAllComments = async (req, res, next) => {
 		if (!id) {
 			throw createHttpError.BadRequest('Post id is required');
 		}
-		const post = await Post.findById(id).populate('comments');
+		const post = await Post.findById(id).populate({
+			path: 'comments',
+			populate: {
+				path: 'user',
+				select: 'username', // Only select the username field of the author
+			},
+		});
 		if (!post) {
 			throw createHttpError.NotFound('Post not found');
 		}
@@ -127,6 +133,15 @@ export const deleteComment = async (req, res, next) => {
 				'User not authorized to delete this comment'
 			);
 		}
+		const post = await Post.findById(id);
+		if (!post) {
+			throw createHttpError.NotFound('Post not found');
+		}
+
+		await Post.findByIdAndUpdate(id, {
+			$pull: { comments: commentId },
+		});
+
 		await Comment.findByIdAndDelete(commentId);
 		res.status(200).json({ message: 'Comment deleted' });
 	} catch (error) {

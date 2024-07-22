@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
-const usePostForm = (
-	subreddit,
-	callback,
-	initialValues = { title: '', content: '' }
-) => {
+const usePostForm = (callback, post) => {
+	const initialValues = {
+		title: post?.title || '',
+		content: post?.content || '',
+	};
 	const [formData, setFormData] = useState(initialValues);
 	const [errors, setErrors] = useState({});
 
@@ -18,12 +18,12 @@ const usePostForm = (
 			setErrors({ title: 'Title must be at least 3 characters long' });
 			return;
 		}
-		console.log('subreddit', subreddit);
-		console.log('formData', formData);
 		if (errors.title || errors.content) {
 			return;
 		}
-		callback({ subredditName: subreddit, post: formData });
+		callback({
+			post: formData,
+		});
 	};
 
 	const handleInputChange = (e) => {

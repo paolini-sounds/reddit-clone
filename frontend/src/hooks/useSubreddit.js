@@ -44,6 +44,7 @@ const useSubreddit = (name) => {
 		isLoading,
 		error,
 		isError,
+		subscribeMutation,
 	};
 };
 

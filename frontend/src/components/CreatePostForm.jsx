@@ -12,14 +12,18 @@ import {
 import React from 'react';
 import usePost from '../hooks/usePost';
 import usePostForm from '../hooks/usePostForm';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 const CreatePostForm = () => {
+	const location = useLocation();
+	const { post, isEditMode } = location?.state || {};
+	console.log('THE POST: ', post);
+	console.log('IS EDIT MODE: ', isEditMode);
 	const { name } = useParams();
-	const { createPost } = usePost(name);
+	const { createPost, editPost } = usePost(name, post && post._id);
 	const { formData, errors, handleInputChange, handleSubmit } = usePostForm(
-		name,
-		createPost
+		isEditMode ? editPost : createPost,
+		post && post
 	);
 
 	return (
@@ -59,7 +63,9 @@ const CreatePostForm = () => {
 							<FormErrorMessage>{errors.content}</FormErrorMessage>
 						)}
 					</FormControl>
-					<Button type='submit'>Create Post</Button>
+					<Button type='submit'>
+						{isEditMode ? 'Update Post' : 'Create Post'}
+					</Button>
 				</Flex>
 			</form>
 		</Flex>

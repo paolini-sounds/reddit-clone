@@ -42,6 +42,7 @@ export const getSubbreddit = async (req, res, next) => {
 								content: 1,
 								createdAt: 1,
 								upvotes: 1,
+								comments: 1,
 							},
 						}, // Include author's _id and username
 					],
