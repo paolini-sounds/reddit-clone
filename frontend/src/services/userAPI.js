@@ -18,6 +18,26 @@ class UserAPI {
 		}
 	};
 
+	getUserFeed = async (query) => {
+		try {
+			const { data } = await axiosInstance.get('users/feed', { params: query });
+			return data;
+		} catch (error) {
+			this.handleError(error);
+		}
+	};
+
+	getGenericFeed = async (query) => {
+		try {
+			const { data } = await axiosInstance.get('subreddits/feed', {
+				params: query,
+			});
+			return data;
+		} catch (error) {
+			this.handleError(error);
+		}
+	};
+
 	handleError = (error) => {
 		if (error.response && error.response.data && error.response.data.error) {
 			throw new Error(error.response.data.error);

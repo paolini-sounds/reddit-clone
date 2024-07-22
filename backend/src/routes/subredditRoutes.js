@@ -14,6 +14,7 @@ import {
 	updatePost,
 	deletePost,
 	upvotePost,
+	getGenericFeed,
 } from '../controllers/postController.js';
 import protectRoute from '../middleware/protectRoute.js';
 import { validateSubreddit } from '../middleware/subredditValidator.js';
@@ -32,6 +33,7 @@ const router = express.Router();
 router.get('/', getAllSubreddits); //get all subreddits
 router.get('/seeddb', seedSubreddits);
 router.post('/create', protectRoute, validateSubreddit, createSubreddit); //create subreddit
+router.get('/feed', getGenericFeed); //get generic feed
 router.get('/:name', getSubbreddit); //get subreddit by name
 router.post('/:name', protectRoute, subscribeUnsubScribeSubreddit); //subscribe to subreddit
 router.put('/:id', protectRoute, validateSubreddit, updateSubreddit); //update subreddit

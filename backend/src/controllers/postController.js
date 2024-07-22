@@ -66,28 +66,50 @@ export const getPost = async (req, res, next) => {
 };
 
 export const getUserFeed = async (req, res, next) => {
-	const { userId, page = 1, limit = 10 } = req.query;
+	console.log('Req.query: ', req.query);
+	const { page = 1, limit = 10 } = req.query;
+	const authUser = req.user;
+	console.log('page: ', page);
+	console.log('limit: ', limit);
+
 	try {
-		const user = await User.findById(userId).populate('subscriptions');
+		const user = await User.findById(authUser._id).populate('subscriptions');
 		if (!user) {
 			throw createHttpError.NotFound('User not found');
 		}
-		if (user.subscriptions.length === 0) {
+
+		let feed;
+		let totalPosts;
+		if (user.subscriptions.length > 0) {
 			const subscriptionIds = user.subscriptions.map((sub) => sub._id);
-			const feed = await Post.find({ subreddit: { $in: subscriptionIds } })
+			feed = await Post.find({ subreddit: { $in: subscriptionIds } })
+				.sort({ createdAt: -1 })
+				.skip((page - 1) * limit)
+				.limit(parseInt(limit))
+				.populate({ path: 'author', select: 'username _id' })
+				.populate({ path: 'subreddit', select: 'name _id' });
+
+			totalPosts = await Post.countDocuments({
+				subreddit: { $in: subscriptionIds },
+			});
+		} else {
+			feed = await Post.find()
 				.sort({ createdAt: -1 })
 				.skip((page - 1) * limit)
 				.limit(parseInt(limit))
 				.populate({ path: 'author', select: 'username' });
-			res.status(200).json(feed);
-		} else {
-			const feed = await Post.find()
-				.sort({ createdAt: -1 })
-				.skip((page - 1) * limit)
-				.limit(parseInt(limit));
+
+			totalPosts = await Post.countDocuments();
 		}
+
+		const hasNextPage = page * limit < totalPosts;
+
+		res.status(200).json({
+			feed,
+			next: hasNextPage ? page + 1 : null,
+		});
 	} catch (error) {
-		console.log('Error in getUserFeed controller');
+		console.log('Error in getUserFeed controller:', error);
 		next(error);
 	}
 };
@@ -99,7 +121,16 @@ export const getGenericFeed = async (req, res, next) => {
 			.sort({ createdAt: -1 })
 			.skip((page - 1) * limit)
 			.limit(parseInt(limit))
-			.populate({ path: 'author', select: 'username' });
+			.populate({ path: 'author', select: 'username' })
+			.populate({ path: 'subreddit', select: 'name _id' });
+
+		const totalPosts = await Post.countDocuments();
+		const hasNextPage = page * limit < totalPosts;
+
+		res.status(200).json({
+			feed,
+			next: hasNextPage ? page + 1 : null,
+		});
 	} catch (error) {
 		console.log('Error in getAllRecentPosts controller');
 		next(error);

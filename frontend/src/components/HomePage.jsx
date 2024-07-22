@@ -12,8 +12,8 @@ import {
 } from '@chakra-ui/react';
 
 import useAuth from '../hooks/useAuth';
-import UserFeed from './UserFeed';
-import GenericFeed from './GenericFeed';
+import UserFeed from './Feed/UserFeed';
+import GenericFeed from './Feed/GenericFeed';
 import { Outlet } from 'react-router-dom';
 
 const HomePage = () => {

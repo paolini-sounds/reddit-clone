@@ -7,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import ErrorPage from './components/ErrorPage';
 import SubredditPage from './components/SubredditPage';
 import CreatePostForm from './components/CreatePostForm';
+import Feed from './components/Feed/Feed';
 
 function App() {
 	return (
@@ -14,6 +15,7 @@ function App() {
 			<NavBar />
 			<Routes>
 				<Route path='/' element={<HomePage />}>
+					<Route index element={<Feed />} />
 					<Route path='/u/:username' element={<ProfilePage />} />
 					<Route path='/r/:name' element={<SubredditPage />} />
 					<Route element={<ProtectedRoute />}>

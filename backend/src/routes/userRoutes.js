@@ -5,7 +5,7 @@ import protectRoute from '../middleware/protectRoute.js';
 
 const router = express.Router();
 
-router.get('/:username', getUserProfile);
 router.get('/feed', protectRoute, getUserFeed);
+router.get('/:username', getUserProfile);
 
 export default router;

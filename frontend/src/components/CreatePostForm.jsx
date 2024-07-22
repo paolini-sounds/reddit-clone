@@ -17,8 +17,6 @@ import { useLocation, useParams } from 'react-router-dom';
 const CreatePostForm = () => {
 	const location = useLocation();
 	const { post, isEditMode } = location?.state || {};
-	console.log('THE POST: ', post);
-	console.log('IS EDIT MODE: ', isEditMode);
 	const { name } = useParams();
 	const { createPost, editPost } = usePost(name, post && post._id);
 	const { formData, errors, handleInputChange, handleSubmit } = usePostForm(

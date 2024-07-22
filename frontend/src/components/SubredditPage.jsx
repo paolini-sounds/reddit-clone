@@ -38,8 +38,9 @@ const SubredditPage = () => {
 	}
 
 	console.log(subreddit);
-	const isSubscribed = subreddit.subscribers.includes(authUser._id);
-	const subscribers = subreddit.subscribers.length;
+	const isSubscribed =
+		isLoggedIn && subreddit.subscribers.includes(authUser._id);
+	const subscribers = isLoggedIn && subreddit.subscribers.length;
 
 	return (
 		<Flex direction='column' alignItems='center'>
@@ -60,7 +61,7 @@ const SubredditPage = () => {
 					)}
 				</Button>
 			)}
-			<Heading>r/{name}</Heading>
+			<Heading mt={!isLoggedIn && 10}>r/{name}</Heading>
 			<Text mb={4}>{subscribers} Subscribers</Text>
 			{isLoggedIn && (
 				<Button as={Link} to={`/r/${subreddit.name}/create`}>
@@ -80,11 +81,7 @@ const SubredditPage = () => {
 					alignItems='center'
 				>
 					{posts && posts.length > 0 ? (
-						posts.map((post) => (
-							<Box width={['100%', '100%', '80%']} key={post._id}>
-								<Post post={post} subredditName={name} />
-							</Box>
-						))
+						posts.map((post) => <Post post={post} subredditName={name} />)
 					) : (
 						<Box>
 							<Heading size='md'>No posts here yet</Heading>

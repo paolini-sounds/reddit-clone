@@ -1,6 +1,7 @@
-import useAuth from '../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 import UserFeed from './UserFeed';
 import GenericFeed from './GenericFeed';
+import { Box, Center, Spinner } from '@chakra-ui/react';
 
 const Feed = () => {
 	const { authUser, isLoggedIn, isLoading, error, isError } = useAuth();
