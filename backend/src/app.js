@@ -2,10 +2,15 @@ import express from 'express';
 import cookieparser from 'cookie-parser';
 import createHttpError, { isHttpError } from 'http-errors';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import subredditRoutes from './routes/subredditRoutes.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -24,10 +29,15 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieparser());
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/subreddits', subredditRoutes);
+
+app.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+});
 
 app.get('/', (req, res) => {
 	res.send('Hello World');
