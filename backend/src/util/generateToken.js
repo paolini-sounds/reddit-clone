@@ -10,7 +10,7 @@ const generateTokenAndSetCookie = (userId, res) => {
 		httpOnly: true, // prevent xss attacks
 		sameSite: 'lax', // CSRF attacks
 		secure: process.env.NODE_ENV !== 'development',
-		domain: 'onrender.com', // Common parent domain for both frontend and backend
+		domain: 'notreddit.lat', // Common parent domain for both frontend and backend
 		path: '/', // Root path
 	});
 };
