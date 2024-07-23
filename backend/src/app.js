@@ -32,6 +32,9 @@ app.use('/api/subreddits', subredditRoutes);
 app.get('/', (req, res) => {
 	res.send('Hello World');
 });
+app.get('/api', (req, res) => {
+	res.send('Hello World');
+});
 
 app.use((req, res, next) => {
 	next(createHttpError(404, 'Endpoint Not found'));
