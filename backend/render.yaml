@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: backend
+    env: node
+    buildCommand: 'npm install'
+    startCommand: 'node src/server.js'
+    routes:
+      - type: rewrite
+        source: '/api/(.*)'
+        destination: '/src/server.js'
