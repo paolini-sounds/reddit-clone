@@ -3,8 +3,8 @@ services:
     name: backend
     env: node
     buildCommand: 'npm install'
-    startCommand: 'node src/server.js'
+    startCommand: 'node api/index.js'
     routes:
       - type: rewrite
         source: '/api/(.*)'
-        destination: '/src/server.js'
+        destination: '/api/index.js'
