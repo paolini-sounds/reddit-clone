@@ -92,7 +92,8 @@ export const getUserFeed = async (req, res, next) => {
 				.sort({ createdAt: -1 })
 				.skip((page - 1) * limit)
 				.limit(parseInt(limit))
-				.populate({ path: 'author', select: 'username' });
+				.populate({ path: 'author', select: 'username' })
+				.populate({ path: 'subreddit', select: 'name _id' });
 
 			totalPosts = await Post.countDocuments();
 		}
