@@ -37,14 +37,6 @@ bower_components/
 backend/.env
 frontend/.env
 
-# Build output directories
-dist/
-frontend/dist/
-
-
-# Vite
-frontend/node_modules/
-frontend/dist/
 
 # IDE files
 .vscode/
