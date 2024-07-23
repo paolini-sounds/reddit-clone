@@ -87,7 +87,7 @@ export const AuthProvider = ({ children }) => {
 				duration: 3000,
 				isClosable: true,
 			});
-			navigate('/dashboard');
+			navigate('/');
 		},
 		onError: (error) => {
 			toast({
