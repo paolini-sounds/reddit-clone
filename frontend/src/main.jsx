@@ -3,9 +3,13 @@ import ReactDOM from 'react-dom/client';
 import { ChakraProvider } from '@chakra-ui/react';
 import App from './App.jsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext.jsx';
+import { disableReactDevTools } from '@fvilers/disable-react-devtools';
+
+if (import.meta.env.MODE === 'production') {
+	disableReactDevTools();
+}
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -23,7 +27,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 					<AuthProvider>
 						<App />
 					</AuthProvider>
-					<ReactQueryDevtools />
 				</QueryClientProvider>
 			</BrowserRouter>
 		</ChakraProvider>
