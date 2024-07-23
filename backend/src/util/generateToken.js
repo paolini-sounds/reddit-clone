@@ -8,8 +8,10 @@ const generateTokenAndSetCookie = (userId, res) => {
 	res.cookie('jwt', token, {
 		maxAge: 15 * 24 * 60 * 60 * 1000,
 		httpOnly: true, // prevent xss attacks
-		sameSite: 'lax',
+		sameSite: 'lax', // CSRF attacks
 		secure: process.env.NODE_ENV !== 'development',
+		domain: 'onrender.com', // Common parent domain for both frontend and backend
+		path: '/', // Root path
 	});
 };
 
