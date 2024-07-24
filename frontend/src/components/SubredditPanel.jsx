@@ -26,6 +26,7 @@ const SubredditPanel = () => {
 					ref={btnRef}
 					onClick={onOpen}
 					size='lg'
+					mt={16}
 					icon={<LuPanelLeft />}
 					position='fixed'
 				/>

@@ -15,9 +15,11 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 const URL =
-	process.env.ENV === 'development'
+	process.env.NODE_ENV === 'development'
 		? 'http://localhost:5173'
 		: process.env.PRODUCTION_URL;
+
+console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
 app.use(
 	cors({
