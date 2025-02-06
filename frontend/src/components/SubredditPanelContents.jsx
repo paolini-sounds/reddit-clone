@@ -1,4 +1,12 @@
-import { Button, Flex, Heading, Spinner, Text } from '@chakra-ui/react';
+import {
+	Avatar,
+	Button,
+	Flex,
+	Heading,
+	HStack,
+	Spinner,
+	Text,
+} from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import SubredditAPI from '../services/SubredditAPI';
 import { Link } from 'react-router-dom';
@@ -27,16 +35,18 @@ const SubredditPanelContents = ({ onLinkClick }) => {
 					</Heading>
 					<Flex direction='column' width='100%' gap={4}>
 						{subreddits.map((subreddit) => (
-							<Button
-								mr='auto'
-								variant='link'
-								as={Link}
-								onClick={onLinkClick}
-								to={`/r/${subreddit.name}`}
-								key={subreddit._id}
-							>
-								<Heading size='sm'>{subreddit.name}</Heading>
-							</Button>
+							<HStack key={subreddit._id}>
+								<Avatar size='sm' />
+								<Button
+									mr='auto'
+									variant='link'
+									as={Link}
+									onClick={onLinkClick}
+									to={`/r/${subreddit.name}`}
+								>
+									<Heading size='sm'>{subreddit.name}</Heading>
+								</Button>
+							</HStack>
 						))}
 					</Flex>
 				</Flex>

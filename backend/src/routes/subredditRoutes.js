@@ -27,6 +27,7 @@ import {
 	updateComment,
 	deleteComment,
 } from '../controllers/commentController.js';
+import uploadSingleImage from '../middleware/multer.js';
 
 const router = express.Router();
 
@@ -40,7 +41,13 @@ router.put('/:id', protectRoute, validateSubreddit, updateSubreddit); //update s
 router.delete('/:id', protectRoute, deleteSubreddit); //delete subreddit
 
 //post routes
-router.post('/:name/posts', protectRoute, validatePost, createPost); //create post in subreddit
+router.post(
+	'/:name/posts',
+	protectRoute,
+	uploadSingleImage,
+	validatePost,
+	createPost
+); //create post in subreddit
 router.post('/:name/posts/:id/upvote', protectRoute, upvotePost); //upvote post in subreddit by id
 router.get('/:name/posts/:id', getPost); //update post in subreddit by id
 router.put('/:name/posts/:id', protectRoute, validatePost, updatePost); //update post in subreddit by id

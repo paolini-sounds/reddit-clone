@@ -2,32 +2,48 @@ import Subreddit from '../models/subredditModel.js';
 import Post from '../models/postModel.js';
 import User from '../models/userModel.js';
 import createHttpError from 'http-errors';
+import cloudinary from 'cloudinary';
 
 export const createPost = async (req, res, next) => {
 	const { name } = req.params;
 	const { title, content } = req.body;
 	const authUser = req.user;
+	let imageUrl = '';
 
 	try {
 		if (!title || !content) {
 			throw createHttpError.BadRequest('Title and content are required');
 		}
+
 		if (!name) {
 			throw createHttpError.BadRequest('Subreddit name is required');
 		}
+
 		const user = await User.findById(authUser._id);
 		if (!user) {
 			throw createHttpError.NotFound('User not found');
 		}
+
 		const subreddit = await Subreddit.findOne({
 			name: { $regex: name, $options: 'i' },
 		});
 		if (!subreddit) {
 			throw createHttpError.NotFound('Subreddit not found');
 		}
+
+		if (req.file) {
+			try {
+				const result = await cloudinary.uploader.upload(req.file.path);
+				image.Url = result.securl_url;
+			} catch (error) {
+				throw createHttpError.InternalServerError('Image upload failed');
+			}
+		}
+
 		const post = await Post.create({
 			title,
 			content,
+			imageUrl,
 			subreddit: subreddit._id,
 			author: user._id,
 		});

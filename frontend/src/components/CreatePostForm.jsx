@@ -60,6 +60,16 @@ const CreatePostForm = () => {
 							<FormErrorMessage>{errors.content}</FormErrorMessage>
 						)}
 					</FormControl>
+					{/* <FormControl id='image'>
+						<FileUploadRoot>
+							<FileUploadTrigger>
+								<Button>
+									<HiUpload /> Upload file
+								</Button>
+							</FileUploadTrigger>
+							<FileUploadList />
+						</FileUploadRoot>
+					</FormControl> */}
 					<Button type='submit'>
 						{isEditMode ? 'Update Post' : 'Create Post'}
 					</Button>

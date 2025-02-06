@@ -33,8 +33,12 @@ const FeedContents = ({ queryObject, isGeneric = true }) => {
 							{data &&
 								data?.pages.map((page, index) => (
 									<React.Fragment key={index}>
-										{page?.feed.map((post) => (
-											<Post post={post} subredditName={post.subreddit.name} />
+										{page?.feed.map((post, index) => (
+											<Post
+												post={post}
+												key={index}
+												subredditName={post.subreddit.name}
+											/>
 										))}
 									</React.Fragment>
 								))}

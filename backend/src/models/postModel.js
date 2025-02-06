@@ -22,6 +22,7 @@ const postSchema = new mongoose.Schema({
 		type: Number,
 		default: 0,
 	},
+	imageUrl: { type: String, default: '' },
 	createdAt: { type: Date, default: Date.now },
 	comments: [
 		{

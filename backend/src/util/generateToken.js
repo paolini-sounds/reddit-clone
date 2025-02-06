@@ -8,9 +8,9 @@ const generateTokenAndSetCookie = (userId, res) => {
 	res.cookie('jwt', token, {
 		maxAge: 15 * 24 * 60 * 60 * 1000,
 		httpOnly: true, // prevent xss attacks
-		sameSite: 'strict', // CSRF attacks
+		sameSite: process.env.NODE_ENV === 'development' ? 'lax' : 'strict', // CSRF attacks
 		secure: process.env.NODE_ENV !== 'development',
-		domain: 'notreddit.lat', // Common parent domain for both frontend and backend
+		//domain: 'notreddit.lat', // Common parent domain for both frontend and backend
 		path: '/', // Root path
 	});
 };
