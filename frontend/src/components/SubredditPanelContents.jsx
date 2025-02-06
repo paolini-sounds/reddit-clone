@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import SubredditAPI from '../services/SubredditAPI';
 import { Link } from 'react-router-dom';
 
-const SubredditPanelContents = () => {
+const SubredditPanelContents = ({ onLinkClick }) => {
 	const {
 		data: subreddits,
 		isLoading,
@@ -31,6 +31,7 @@ const SubredditPanelContents = () => {
 								mr='auto'
 								variant='link'
 								as={Link}
+								onClick={onLinkClick}
 								to={`/r/${subreddit.name}`}
 								key={subreddit._id}
 							>

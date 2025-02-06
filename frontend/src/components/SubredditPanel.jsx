@@ -18,6 +18,9 @@ const SubredditPanel = () => {
 	const [isLargerThan992] = useMediaQuery('(min-width: 992px)');
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const btnRef = useRef();
+	const handleClick = () => {
+		onClose();
+	};
 
 	if (!isLargerThan992) {
 		return (
@@ -41,7 +44,7 @@ const SubredditPanel = () => {
 						<Box mr='auto'>
 							<IconButton onClick={onClose} size='lg' icon={<LuPanelLeft />} />
 						</Box>
-						<SubredditPanelContents />
+						<SubredditPanelContents onLinkClick={handleClick} />
 					</DrawerContent>
 				</Drawer>
 			</>
