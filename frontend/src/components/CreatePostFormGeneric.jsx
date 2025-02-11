@@ -13,7 +13,7 @@ import usePost from '../hooks/usePost';
 import usePostForm from '../hooks/usePostForm';
 import { useLocation, useParams } from 'react-router-dom';
 
-const CreatePostForm = () => {
+const CreatePostFormGeneric = () => {
 	const location = useLocation();
 	const { post, isEditMode } = location?.state || {};
 	const { name } = useParams();
@@ -69,4 +69,4 @@ const CreatePostForm = () => {
 	);
 };
 
-export default CreatePostForm;
+export default CreatePostFormGeneric;

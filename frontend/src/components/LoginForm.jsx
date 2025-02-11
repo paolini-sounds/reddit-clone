@@ -15,10 +15,11 @@ import useAuth from '../hooks/useAuth';
 import useAuthForm from '../hooks/useAuthForm';
 
 const LoginForm = () => {
-	const { login } = useAuth();
+	const { login, authUser } = useAuth();
 	const { isTyping, handleSubmit, errors, hasFormErrors, handleInputChange } =
 		useAuthForm('login');
 
+	console.log('Auth user from login component: ' + authUser);
 	return (
 		<Flex direction='column' alignItems='center'>
 			<form onSubmit={handleSubmit}>

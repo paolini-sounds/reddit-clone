@@ -14,16 +14,14 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-const URL =
+const FRONTEND_URL =
 	process.env.NODE_ENV === 'development'
 		? 'http://localhost:5173'
 		: process.env.PRODUCTION_URL;
 
-console.log('process.env.NODE_ENV', process.env.NODE_ENV);
-
 app.use(
 	cors({
-		origin: URL,
+		origin: FRONTEND_URL,
 		methods: ['GET', 'POST', 'PUT', 'DELETE'],
 		credentials: true,
 	})

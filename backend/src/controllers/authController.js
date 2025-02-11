@@ -75,14 +75,7 @@ export const login = async (req, res, next) => {
 
 export const logout = async (req, res) => {
 	try {
-		res.cookie('jwt', '', {
-			maxAge: 0, // Expire the cookie immediately
-			httpOnly: true, // prevent xss attacks
-			sameSite: 'strict', // CSRF attacks
-			secure: process.env.NODE_ENV !== 'development',
-			domain: 'notreddit.lat', // Common parent domain for both frontend and backend
-			path: '/', // Root path
-		});
+		res.clearCookie('jwt', { path: '/' });
 		res.status(200).json({ message: 'Logged out successfully.' });
 	} catch (error) {
 		console.log('Error in logout controller.', error.message);

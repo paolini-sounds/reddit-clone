@@ -12,6 +12,7 @@ import { MdOutlineWbSunny } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import AccountMenu from './AccountMenu';
 import React from 'react';
+import CreatePostButton from './CreatePostButton';
 
 const Navbar = () => {
 	const { colorMode, toggleColorMode } = useColorMode();
@@ -38,6 +39,7 @@ const Navbar = () => {
 					</Button>
 				</Box>
 				<HStack ml='auto'>
+					{/* <CreatePostButton /> */}
 					<Button
 						variant={colorMode === 'dark' ? 'ghost' : 'solid'}
 						onClick={toggleColorMode}
