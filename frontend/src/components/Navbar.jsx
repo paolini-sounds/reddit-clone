@@ -39,7 +39,7 @@ const Navbar = () => {
 					</Button>
 				</Box>
 				<HStack ml='auto'>
-					{/* <CreatePostButton /> */}
+					<CreatePostButton />
 					<Button
 						variant={colorMode === 'dark' ? 'ghost' : 'solid'}
 						onClick={toggleColorMode}

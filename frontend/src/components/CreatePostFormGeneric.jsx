@@ -13,6 +13,16 @@ import usePost from '../hooks/usePost';
 import usePostForm from '../hooks/usePostForm';
 import { useLocation, useParams } from 'react-router-dom';
 
+import { createListCollection } from '@chakra-ui/react';
+import {
+	SelectContent,
+	SelectItem,
+	SelectLabel,
+	SelectRoot,
+	SelectTrigger,
+	SelectValueText,
+} from '@/components/ui/select';
+
 const CreatePostFormGeneric = () => {
 	const location = useLocation();
 	const { post, isEditMode } = location?.state || {};
